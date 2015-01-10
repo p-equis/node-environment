@@ -4,21 +4,11 @@ dep 'nodejs.bin' do
 end
 
 dep 'node-ppa' do 
-  requires 'add-apt-repository.bin'
-  
   met? {
-    shell? "ls /etc/apt/sources.list.d | grep chris-lea"
+    shell? "ls /etc/apt/sources.list.d | grep nodesource.list"
   }
   meet {
-    log "adding chris-lea nodejs PPA"
-    sudo "add-apt-repository ppa:chris-lea/node.js"
+    log "adding nodejs repository..."
+    shell "curl -sL https://deb.nodesource.com/setup | sudo bash -"
   }
-  after {
-    log "running apt-get update"
-    sudo "apt-get update"
-  }
-end
-
-dep 'add-apt-repository.bin' do 
-  installs 'python-software-properties'
 end
